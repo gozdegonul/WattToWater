@@ -1,4 +1,4 @@
-# AquaShift — video senaryosu (~3 dakika)
+# WattToWater — video senaryosu (~3 dakika)
 
 Konuşma metni İngilizce (makale ile aynı dil). Köşeli parantez içindekiler çekim notu.
 Yarışmanın video süre sınırını kontrol et; aşağıdaki süreler toplam ~3 dk.
@@ -7,14 +7,14 @@ Yarışmanın video süre sınırını kontrol et; aşağıdaki süreler toplam 
 
 - Tüm uygulamaları kapat (ölçüm koşulu makaledeki Set 1/4 ile aynı olsun).
 - Terminali büyük font ile aç (Ctrl + tekerlek), koyu tema.
-- Bir kez prova çalıştır: `py aquashift.py` (ilk çalıştırma biraz yavaş olabilir).
-- Açık sekmeler: `aquashift_map.html`, `figures/fig2_water_vs_stress.png`, `figures/fig3_model_size.png`, makale.
+- Bir kez prova çalıştır: `py watttowater.py` (ilk çalıştırma biraz yavaş olabilir).
+- Açık sekmeler: `watttowater_map.html`, `figures/fig2_water_vs_stress.png`, `figures/fig3_model_size.png`, makale.
 
 ## 1. Kanca — 0:00–0:20  [kameraya konuş]
 
 > Every time we run code, somewhere a data center uses water, to cool its servers
 > and to generate its electricity. But no developer ever sees that number.
-> I built AquaShift to make it visible.
+> I built WattToWater to make it visible.
 
 ## 2. Problem — 0:20–0:45  [makalenin Introduction kısmı ekranda]
 
@@ -25,10 +25,10 @@ Yarışmanın video süre sınırını kontrol et; aşağıdaki süreler toplam 
 
 ## 3. Canlı demo — 0:45–1:35  [terminal]
 
-`py aquashift.py`
+`py watttowater.py`
 
 > I train a real machine-learning model, a 200-tree Random Forest, on my laptop.
-> AquaShift measures the time and CPU use, estimates the energy,
+> WattToWater measures the time and CPU use, estimates the energy,
 > and converts it into water for 11 data-center regions.
 
 [Tablo çıkınca imleçle göster]
@@ -37,16 +37,16 @@ Yarışmanın video süre sınırını kontrol et; aşağıdaki süreler toplam 
 > And look at the on-site column: cooling is at most 22 percent.
 > The electricity grid is the real water consumer.
 
-## 4. Litre ≠ kıtlık — 1:35–2:10  [fig2_water_vs_stress.png veya aquashift_map.html]
+## 4. Litre ≠ kıtlık — 1:35–2:10  [fig2_water_vs_stress.png veya watttowater_map.html]
 
 > But litres are only half the story. Here I put each region's water footprint next to
 > its water stress from WRI Aqueduct. Texas uses very little water, but it is in a
 > High-stress region. Washington uses the most, but has low stress.
-> That's why AquaShift never merges them into one number: it shows both.
+> That's why WattToWater never merges them into one number: it shows both.
 
 ## 5. İkinci kaldıraç: model boyutu — 2:10–2:40  [önce terminal, sonra fig3]
 
-`py aquashift.py --trees 100`
+`py watttowater.py --trees 100`
 
 > And if you can't move your job, you can shrink it. With 100 trees instead of 200,
 > the model used 48 percent of the energy and water, and the accuracy was the same,

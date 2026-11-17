@@ -1,9 +1,9 @@
-# aquashift.py - Live demo: run an ML job, measure it, convert to water, compare 11 regions.
+# watttowater.py - Live demo: run an ML job, measure it, convert to water, compare 11 regions.
 #
 # Usage:
-#   py aquashift.py              # 200-tree Random Forest (the job in the paper)
-#   py aquashift.py --trees 50   # a smaller model
-#   py aquashift.py --scale 1000000   # also show the total for 1 million runs (linear)
+#   py watttowater.py              # 200-tree Random Forest (the job in the paper)
+#   py watttowater.py --trees 50   # a smaller model
+#   py watttowater.py --scale 1000000   # also show the total for 1 million runs (linear)
 #
 # Energy is an ESTIMATE (45 W TDP, 5 W idle, linear in CPU utilisation), see aquameter.py.
 # Water factors: Ren et al., arXiv:2304.03271, Table 1. Water stress: WRI Aqueduct 4.0.
@@ -38,13 +38,13 @@ def fmt_ml(ml):
 
 
 def main():
-    p = argparse.ArgumentParser(description="AquaShift live demo")
+    p = argparse.ArgumentParser(description="WattToWater live demo")
     p.add_argument("--trees", type=int, default=200, help="number of trees (default 200)")
     p.add_argument("--scale", type=int, default=0,
                    help="also show the total water for this many runs (linear scaling)")
     args = p.parse_args()
 
-    print(f"\n{BOLD}AquaShift{RESET} - water footprint of a compute job\n")
+    print(f"\n{BOLD}WattToWater{RESET} - water footprint of a compute job\n")
     print(f"Job: RandomForestClassifier, {args.trees} trees, 20,000 synthetic samples")
 
     X, y = make_classification(n_samples=20000, n_features=20, n_informative=10,

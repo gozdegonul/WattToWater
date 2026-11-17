@@ -1,8 +1,8 @@
-# AquaShift
+# WattToWater
 
 **How much water does a piece of code use, and where should it run?**
 
-AquaShift converts the energy of a compute job into litres of water, split into
+WattToWater converts the energy of a compute job into litres of water, split into
 on-site cooling water and off-site water used to generate the electricity, and
 compares the result across 11 data-center regions side by side with WRI Aqueduct
 baseline water stress.
@@ -28,18 +28,18 @@ py -m pip install -r requirements.txt
 ```
 
 ```bash
-py aquashift.py
+py watttowater.py
 ```
 
 ```bash
-py aquashift.py --trees 50 --scale 1000000
+py watttowater.py --trees 50 --scale 1000000
 ```
 
 ```bash
 py analysis.py
 ```
 
-`aquashift.py` runs the job live and prints the 11-region comparison.
+`watttowater.py` runs the job live and prints the 11-region comparison.
 `analysis.py` regenerates every table (`outputs/`) and figure (`figures/`) in the
 paper from the recorded runs, without measuring anything new.
 
@@ -57,15 +57,15 @@ W = E · WUE  +  E · PUE · EWIF
 
 | File | Purpose |
 |---|---|
-| `water2.py` | PUE, WUE, EWIF for 11 regions (Ren et al., Table 1) and the water formula |
+| `water2.py` | PUE, WUE, EWIF for 11 regions (Li et al., Table 1) and the water formula |
 | `stress.py` | WRI Aqueduct 4.0 baseline water stress per region |
 | `aquameter.py` | Measures a job: time, CPU utilisation, power, energy |
 | `ml_job.py` | The benchmark job (Random Forest on synthetic data) |
 | `log_runs.py` | Runs the job 5× and appends to `results.csv` |
 | `tradeoff.py` | Model-size experiment (25–200 trees), writes `tradeoff.csv` |
 | `analysis.py` | All paper tables and figures |
-| `aquashift.py` | Live demo |
-| `aquashift_map.html` | Interactive map (open in a browser) |
+| `watttowater.py` | Live demo |
+| `watttowater_map.html` | Interactive map (open in a browser) |
 
 ## Sources
 

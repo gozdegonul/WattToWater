@@ -29,6 +29,7 @@ SET_LABELS = {1: "tüm uygulamalar kapalı", 2: "geliştirme araçları açık",
 
 os.makedirs("outputs", exist_ok=True)
 os.makedirs("figures", exist_ok=True)
+os.makedirs("paper/figures", exist_ok=True)
 
 # Renkler: tek mavi ton (büyüklük) + su stresi için tek sıcak ton rampası (açık -> koyu)
 INK = "#14262d"
@@ -138,6 +139,20 @@ write_csv("outputs/table_tradeoff.csv",
 print()
 
 # ================================================================ ŞEKİLLER
+
+
+def save(fig, name):
+    """PNG (başlıklı, sunum/README için) + PDF (başlıksız, IEEE makalesi için) kaydeder."""
+    fig.savefig(f"figures/{name}.png")
+    for ax in fig.axes:
+        for loc in ("left", "center", "right"):
+            ax.set_title("", loc=loc)
+    if fig._suptitle is not None:
+        fig._suptitle.set_text("")
+        fig.tight_layout()
+    fig.savefig(f"paper/figures/{name}.pdf")
+    plt.close(fig)
+
 # Şekil 1: bölge başına su (mL), tesis içi / tesis dışı ayrımı
 fig, ax = plt.subplots(figsize=(7.2, 4.2))
 names = [r[0] for r in factor_rows]
@@ -157,8 +172,7 @@ ax.set_xlim(0, max(o + f for o, f in zip(on, off)) * 1.15)
 ax.legend(frameon=False, loc="lower right")
 ax.set_title("Same job, 11 regions: 6.7x difference in water", loc="left", fontsize=11,
              fontweight="bold")
-fig.savefig("figures/fig1_water_by_region.png")
-plt.close(fig)
+save(fig, "fig1_water_by_region")
 
 # Şekil 2: litre ve su stresi (dağılım grafiği)
 fig, ax = plt.subplots(figsize=(7.2, 4.6))
@@ -185,8 +199,7 @@ ax.set_xlabel("Water footprint of one training run (mL)")
 ax.set_ylabel("WRI Aqueduct baseline water stress (0-5)")
 ax.set_title("Litres and scarcity rank regions differently", loc="left", fontsize=11,
              fontweight="bold")
-fig.savefig("figures/fig2_water_vs_stress.png")
-plt.close(fig)
+save(fig, "fig2_water_vs_stress")
 
 # Şekil 3: model boyutu - enerji payı ve doğruluk (iki ayrı panel, tek eksen kuralı)
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(7.2, 3.2))
@@ -212,7 +225,6 @@ ax2.set_axisbelow(True)
 fig.suptitle("Fewer trees: much less water, almost the same accuracy", x=0.02, ha="left",
              fontsize=11, fontweight="bold")
 fig.tight_layout()
-fig.savefig("figures/fig3_model_size.png")
-plt.close(fig)
+save(fig, "fig3_model_size")
 
-print("Tablolar: outputs/  |  Şekiller: figures/")
+print("Tablolar: outputs/  |  Şekiller: figures/ (PNG), paper/figures/ (PDF)")
