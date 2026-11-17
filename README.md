@@ -1,3 +1,5 @@
+![WattToWater banner](figures/banner.png)
+
 # WattToWater
 
 **How much water does a piece of code use, and where should it run?**
@@ -64,6 +66,7 @@ W = E · WUE  +  E · PUE · EWIF
 | `log_runs.py` | Runs the job 5× and appends to `results.csv` |
 | `tradeoff.py` | Model-size experiment (25–200 trees), writes `tradeoff.csv` |
 | `analysis.py` | All paper tables and figures |
+| `banner.py` | Project banner (`figures/banner.png`) |
 | `watttowater.py` | Live demo |
 | `watttowater_map.html` | Interactive map (open in a browser) |
 
