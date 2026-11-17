@@ -1,0 +1,12 @@
+﻿region,water_ml_mean,water_ml_sd,bws_score_0_5,bws_category,level
+Ireland,0.106,0.008,0.36,Low (<10%),country
+Texas,0.113,0.009,3.33,High (40-80%),state
+Virginia,0.17,0.013,2.56,Medium - High (20-40%),state
+Wyoming,0.178,0.014,3.77,High (40-80%),state
+Iowa,0.223,0.017,1.08,Low - Medium (10-20%),state
+Illinois,0.224,0.017,2.4,Medium - High (20-40%),state
+Netherlands,0.238,0.018,1.58,Low - Medium (10-20%),country
+US average,0.252,0.019,2.6,Medium - High (20-40%),country
+Sweden,0.422,0.032,0.78,Low (<10%),country
+Arizona,0.446,0.034,4.39,Extremely High (>80%),state
+Washington,0.708,0.054,1.2,Low - Medium (10-20%),state
