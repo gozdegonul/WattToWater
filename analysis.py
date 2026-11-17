@@ -23,6 +23,9 @@ from water2 import REGIONS, water_for  # noqa: E402
 
 N_RUNS_PER_SET = 5
 SELECTED_SETS = [1, 3, 4]   # Set 2 aykırı, gerekçe: makale Bölüm 2.3
+# Rapor için genel koşul adları (results.csv'deki orijinal notlar değiştirilmedi)
+SET_LABELS = {1: "tüm uygulamalar kapalı", 2: "geliştirme araçları açık",
+              3: "geliştirme araçları açık", 4: "tüm uygulamalar kapalı"}
 
 os.makedirs("outputs", exist_ok=True)
 os.makedirs("figures", exist_ok=True)
@@ -71,7 +74,7 @@ for s in range(1, len(rows) // N_RUNS_PER_SET + 1):
     d = [float(r["duration_s"]) for r in part]
     u = [float(r["util_pct"]) for r in part]
     used = "evet" if s in SELECTED_SETS else "HAYIR"
-    print(f"  Set {s}: {part[0]['condition']:24} süre {statistics.mean(d):.2f} ± "
+    print(f"  Set {s}: {SET_LABELS.get(s, part[0]['condition']):25} süre {statistics.mean(d):.2f} ± "
           f"{statistics.stdev(d):.2f} s, kullanım %{statistics.mean(u):.1f}, kullanıldı: {used}")
 print(f"\nEnerji ({len(energies)} çalıştırma): {e_mean:.3e} ± {e_sd:.1e} kWh\n")
 
