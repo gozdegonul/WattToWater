@@ -12,8 +12,8 @@ from water2 import REGIONS, water_for
 N_RUNS_PER_SET = 5
 
 # Kullandığımız setler (results.csv'de 5'erli gruplar, sırayla):
-#   1 = tüm uygulamalar kapalı, 2 = Claude ve VS Code açık (AYKIRI),
-#   3 = Claude ve VS Code açık, 4 = tüm uygulamalar kapalı
+#   1 = tüm uygulamalar kapalı, 2 = geliştirme araçları açık (AYKIRI),
+#   3 = geliştirme araçları açık, 4 = tüm uygulamalar kapalı
 # Set 2 çıkarıldı: aynı koşul (set 3) çok farklı sonuç verdi, olası sebep
 # uygulama açılışı sonrası arka plan yükü (kanıtlanmadı). Dosyada duruyor.
 SELECTED_SETS = [1, 3, 4]
