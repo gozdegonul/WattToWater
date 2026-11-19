@@ -9,8 +9,9 @@ köşeli parantez içindekiler çekim notu. Süreler toplam 3:00.
 - Terminali büyük font ile aç (Ctrl + tekerlek), koyu tema.
 - Prova: aşağıdaki 3 komutu birer kez çalıştır (ilk çalıştırma yavaş olabilir).
 - `water_log.csv` dosyasını sil, böylece rapor sadece çekimdeki çalıştırmaları gösterir.
-- Açık sekmeler: `figures/banner_wide.png`, `examples/quickstart.py` (VS Code),
-  GitHub'da Actions sayfasındaki son "water-report" çalıştırmasının özeti, makale PDF'i.
+- Açık sekmeler: `figures/banner_wide.png`, interaktif harita
+  (https://gozdegonul.github.io/WattToWater/ ya da `watttowater_map.html`), `examples/quickstart.py`
+  (VS Code), GitHub'da Actions sayfasındaki son "water-report" çalıştırmasının özeti, makale PDF'i.
 
 ## 1. Kanca — 0:00–0:15  [banner ekranda, kameraya konuş]
 
@@ -18,11 +19,12 @@ köşeli parantez içindekiler çekim notu. Süreler toplam 3:00.
 > to generate its electricity. But developers never see that number. And you can't
 > reduce what you can't see. So I built WattToWater: a water meter for code.
 
-## 2. Problem — 0:15–0:35  [makalenin Fig. 1 ve Fig. 2'si]
+## 2. Problem — 0:15–0:35  [interaktif harita: imleçle Washington, sonra İrlanda dairesinin üstüne gel]
 
 > Water is used in two places: on-site, for cooling, and off-site, at the power plants.
-> The same job does not cost the same water everywhere, and a litre in a dry region is
-> not the same as a litre in a wet one.
+> On this map, each circle is the water of the same job in a different region, and its
+> colour is the local water stress. The same job does not cost the same water everywhere,
+> and a litre in a dry region is not the same as a litre in a wet one.
 
 ## 3. Canlı ölçüm — 0:35–1:15  [terminal]
 

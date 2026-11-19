@@ -10,6 +10,10 @@ Water is split into on-site cooling water and off-site water used to generate th
 electricity, and shown next to WRI Aqueduct baseline water stress. Litres and scarcity are
 never merged into one score.
 
+**Try it in your browser:** [interactive water map](https://gozdegonul.github.io/WattToWater/):
+a calculator, a world map of the 11 regions coloured by water stress, and both levers (where
+to run, and how big a model to run), with the numbers of the paper.
+
 ## The solution in three levels
 
 | Level | Who | What WattToWater gives them | How |
@@ -127,7 +131,7 @@ assumption). Set your own machine's values with `WATTTOWATER_TDP_W` and
 | `log_runs.py`, `tradeoff.py` | Scripts that recorded them |
 | `paper/` | IEEE LaTeX source of the paper |
 | `banner.py` | Banners (`figures/banner.png`, `figures/banner_wide.png`) |
-| `watttowater_map.html` | Interactive map (open in a browser) |
+| `watttowater_map.html` | Interactive water map (live on GitHub Pages; `index.html` opens it) |
 
 ## Sources
 
