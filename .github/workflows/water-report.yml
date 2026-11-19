@@ -1,0 +1,29 @@
+# Water report on every push: runs the tests and the example jobs, then writes the
+# water footprint of this pipeline run to the job summary page.
+name: water-report
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  water:
+    runs-on: ubuntu-latest
+    env:
+      # Power model of the machine that runs the jobs (estimate, see watttowater/meter.py).
+      WATTTOWATER_TDP_W: "45"
+      WATTTOWATER_IDLE_W: "5"
+      WATTTOWATER_LOG: water_log.csv
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt pytest
+      - name: Tests
+        run: python -m pytest tests -q
+      - name: Run tracked jobs
+        run: python examples/quickstart.py
+      - name: Water report
+        run: python -m watttowater report water_log.csv --region Virginia

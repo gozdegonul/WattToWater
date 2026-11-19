@@ -41,13 +41,7 @@ Li~\textit{et al.}~\cite{li2023thirsty} estimate that training GPT-3 in Microsof
 
 A developer rarely sees this number for their own code, and two things make it hard to reason about. First, the footprint of the same job depends strongly on where it runs: across the 11 operating regions we use, water per kWh differs by a factor of 6.7. Second, litres are not scarcity: a litre taken in a water-stressed basin matters more than a litre taken where water is plentiful.
 
-The decisions that set this footprint are made by people who never see a water bill: which cloud region to deploy in, which model size to train, when a job is good enough. WattToWater aims to put the water cost in front of them at that moment, in units they can compare. This paper makes four contributions:
-\begin{enumerate}
-\item A transparent, open pipeline from measured CPU utilisation to energy to litres of water, split into on-site and off-site water.
-\item A measurement protocol with repeated runs, logged conditions and documented exclusions.
-\item Side-by-side reporting of litres and WRI Aqueduct baseline water stress~\cite{wri2023aqueduct} for 11 regions, instead of a single combined index.
-\item A model-size experiment showing how much water a developer can save without changing region.
-\end{enumerate}
+The decisions that set this footprint are made by people who never see a water bill: which cloud region to deploy in, which model size to train, when a job is good enough. WattToWater aims to put the water cost in front of them at that moment, in units they can compare. This paper contributes (i)~a transparent, open pipeline from measured CPU utilisation to energy to on-site and off-site water; (ii)~a measurement protocol with repeated runs, logged conditions and documented exclusions; (iii)~side-by-side reporting of litres and WRI Aqueduct baseline water stress~\cite{wri2023aqueduct} for 11 regions; (iv)~a model-size experiment; and (v)~an open library that brings these numbers to developers, teams and organisations.
 
 \section{Method}
 
@@ -127,6 +121,16 @@ For the model-size experiment we trained forests of 25, 50, 100 and 200 trees, t
 
 We take water stress from the baseline water stress indicator (bws) of WRI Aqueduct 4.0~\cite{wri2023aqueduct}, weighted by total water demand, from the country rankings file \texttt{Aqueduct40\_rankings\_download\_Y2023M07D05.xlsx}. The score runs from 0 to 5, and each score maps to a category (Low, Low--Medium, Medium--High, High, Extremely High). For the Netherlands, Ireland, Sweden and the U.S.\ average we use country-level values; for the U.S.\ states we use state-level values. We do not combine litres and stress into a single index: both are reported next to each other.
 
+\subsection{From Measurement to Decisions}
+
+The method is packaged as an open Python library that puts the water footprint where decisions are made, at three levels:
+\begin{itemize}
+\item \textit{Developer:} one decorator, \texttt{@track\_water}, measures any function or code block, prints its water per region and appends the run to a log.
+\item \textit{Team:} \texttt{python -m watttowater report} turns the log into a Markdown summary; a continuous-integration workflow writes it to the summary page of every pipeline run.
+\item \textit{Organisation:} a region ranking under a water-stress policy limit (e.g.\ stress $\le 2$), and a model-size advisor that measures variants of a job and suggests the cheapest one within 0.5 percentage points of the best result.
+\end{itemize}
+Automated tests check that the library reproduces the numbers reported in this paper.
+
 \section{Results}
 
 \subsection{Water by Region}
@@ -135,7 +139,7 @@ For the 200-tree training job, the water footprint ranges from 0.106~mL in Irela
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=0.7\textwidth]{figures/fig1_water_by_region.pdf}
+\includegraphics[width=0.66\textwidth]{figures/fig1_water_by_region.pdf}
 \caption{Water footprint of one training run per region, split into off-site (electricity generation) and on-site (cooling) water. The same job needs 6.7 times more water in Washington than in Ireland.}
 \label{fig:region}
 \end{figure*}
@@ -174,7 +178,7 @@ Washington         & $0.708 \pm 0.054$ & 1.20 & Low--Medium \\
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=0.56\textwidth]{figures/fig2_water_vs_stress.pdf}
+\includegraphics[width=0.54\textwidth]{figures/fig2_water_vs_stress.pdf}
 \caption{Water footprint against baseline water stress. Error bars: $\pm1$~sd over 15 runs. Colour follows the Aqueduct stress category.}
 \label{fig:stress}
 \end{figure*}
@@ -206,7 +210,7 @@ Trees & Test accuracy & Time (s) & Energy and water \\
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=0.62\textwidth]{figures/fig3_model_size.pdf}
+\includegraphics[width=0.6\textwidth]{figures/fig3_model_size.pdf}
 \caption{Energy and water relative to 200 trees (left) and test accuracy (right). The accuracy axis spans 2 percentage points.}
 \label{fig:trees}
 \end{figure*}
@@ -226,11 +230,9 @@ Trees & Test accuracy & Time (s) & Energy and water \\
 \section{Limitations}
 
 \begin{itemize}
-\item \textit{Energy is estimated, not measured.} It rests on a nominal base power (45~W), an assumed idle power (5~W) and a linear power model. The processor can draw up to 95~W for short periods, so the true value may be higher or lower. A wall power meter or a hardware power sensor would replace this assumption.
-\item \textit{System-wide utilisation.} The utilisation includes every process on the laptop, not only the job. Other applications were closed for most runs, but the job's share cannot be separated exactly.
-\item \textit{Laptop energy, data-center factors.} Data-center water factors are applied to the energy of a laptop run. This illustrates the method; it does not describe how a server would run the same job.
+\item \textit{Energy is estimated, not measured.} It rests on a nominal base power (45~W), an assumed idle power (5~W) and a linear power model. The processor can draw up to 95~W for short periods, so the true value may be higher or lower. The \pm{} values cover only run-to-run variation; no sensitivity analysis has been run yet.
+\item \textit{Laptop, system-wide measurement.} Utilisation includes every process on the laptop, and data-center water factors are applied to laptop energy. This illustrates the method; it does not describe how a server would run the job.
 \item \textit{Annual average factors.} WUE, PUE and EWIF are annualised values. They do not capture weather, season or time of day, although on-site WUE depends on outside temperature and humidity~\cite{li2023thirsty}.
-\item \textit{Error bars are partial.} The $\pm$ values reflect run-to-run variation of the measured energy only. No sensitivity analysis has been run yet.
 \item \textit{One workload, one machine, one dataset.} The sets are sensitive to the thermal state of the processor and to the order of runs. Excluding Set~2 is a documented judgement, not a proven cause. The accuracy comparison uses one fixed train/test split.
 \item \textit{Water stress is unvalidated and coarse.} The Aqueduct documentation states that its indicators cannot be measured directly, have not been validated, and do not model interbasin transfers. Country and state averages give different resolution across regions.
 \item \textit{Scope.} Embodied (scope~3) water and the 7 projected regions of~\cite{li2023thirsty} are excluded.
@@ -244,7 +246,7 @@ Future work will (i)~replace the estimated power with a measured value from a wa
 
 \section*{Data and Code Availability}
 
-All measurements (20 runs in 4 sets for the main experiment and 12 runs for the model-size experiment) and the scripts that produce every number, table and figure in this paper are available at \url{https://github.com/gozdegonul/WattToWater}. The script \texttt{analysis.py} regenerates all tables and figures from the recorded runs; \texttt{watttowater.py} runs the job live and prints the comparison.
+All measurements, the library and the scripts behind every number, table and figure are at \url{https://github.com/gozdegonul/WattToWater}; \texttt{analysis.py} regenerates them from the recorded runs.
 
 \begin{thebibliography}{00}
 \bibitem{li2023thirsty} P. Li, J. Yang, M. A. Islam, and S. Ren, ``Making AI less `thirsty': Uncovering and addressing the secret water footprint of AI models,'' arXiv:2304.03271, v5, Mar. 2025. [Online]. Available: \url{https://arxiv.org/abs/2304.03271}

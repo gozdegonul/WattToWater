@@ -1,2 +1,5 @@
 __pycache__/
 *.pyc
+water_log.csv
+.pytest_cache/
+SUBMISSION_KIT.md

@@ -1,73 +1,86 @@
-# WattToWater — video senaryosu (~3 dakika)
+# WattToWater — video senaryosu (3:00)
 
-Konuşma metni İngilizce (makale ile aynı dil). Köşeli parantez içindekiler çekim notu.
-Yarışmanın video süre sınırını kontrol et; aşağıdaki süreler toplam ~3 dk.
+Yarışma şartı: anlatımlı sunum + demo, en fazla 3 dakika. Konuşma metni İngilizce,
+köşeli parantez içindekiler çekim notu. Süreler toplam 3:00.
 
 ## Çekimden önce
 
-- Tüm uygulamaları kapat (ölçüm koşulu makaledeki Set 1/4 ile aynı olsun).
+- Tüm uygulamaları kapat (makaledeki Set 1/4 koşulu).
 - Terminali büyük font ile aç (Ctrl + tekerlek), koyu tema.
-- Bir kez prova çalıştır: `py watttowater.py` (ilk çalıştırma biraz yavaş olabilir).
-- Açık sekmeler: `watttowater_map.html`, `figures/fig2_water_vs_stress.png`, `figures/fig3_model_size.png`, makale.
+- Prova: aşağıdaki 3 komutu birer kez çalıştır (ilk çalıştırma yavaş olabilir).
+- `water_log.csv` dosyasını sil, böylece rapor sadece çekimdeki çalıştırmaları gösterir.
+- Açık sekmeler: `figures/banner_wide.png`, `examples/quickstart.py` (VS Code),
+  GitHub'da Actions sayfasındaki son "water-report" çalıştırmasının özeti, makale PDF'i.
 
-## 1. Kanca — 0:00–0:20  [kameraya konuş]
+## 1. Kanca — 0:00–0:15  [banner ekranda, kameraya konuş]
 
-> Every time we run code, somewhere a data center uses water, to cool its servers
-> and to generate its electricity. But no developer ever sees that number.
-> I built WattToWater to make it visible.
+> Every time we run code, a data center somewhere uses water, to cool its servers and
+> to generate its electricity. But developers never see that number. And you can't
+> reduce what you can't see. So I built WattToWater: a water meter for code.
 
-## 2. Problem — 0:20–0:45  [makalenin Introduction kısmı ekranda]
+## 2. Problem — 0:15–0:35  [makalenin Fig. 1 ve Fig. 2'si]
 
 > Water is used in two places: on-site, for cooling, and off-site, at the power plants.
-> Published research estimates that training GPT-3 used about 5.4 million litres.
-> But the same job does not cost the same water everywhere, and a litre in a dry
-> region is not the same as a litre in a wet one.
+> The same job does not cost the same water everywhere, and a litre in a dry region is
+> not the same as a litre in a wet one.
 
-## 3. Canlı demo — 0:45–1:35  [terminal]
+## 3. Canlı ölçüm — 0:35–1:15  [terminal]
 
-`py watttowater.py`
+`python -m watttowater --max-stress 2`
 
-> I train a real machine-learning model, a 200-tree Random Forest, on my laptop.
-> WattToWater measures the time and CPU use, estimates the energy,
-> and converts it into water for 11 data-center regions.
+> I train a real machine-learning model on my laptop. WattToWater measures it, estimates
+> the energy and converts it into water for 11 data-center regions.
 
 [Tablo çıkınca imleçle göster]
 
-> Same job: Ireland about 0.1 millilitres, Washington about 0.7. That's 6.7 times more.
-> And look at the on-site column: cooling is at most 22 percent.
-> The electricity grid is the real water consumer.
+> Same job: Ireland about 0.1 millilitres, Washington about 0.7: 6.7 times more.
+> Cooling is at most 22 percent; the electricity grid is the real water consumer.
+> And look at Texas: very little water, but high water stress. That's why WattToWater
+> shows litres and scarcity side by side, and here it recommends only regions under
+> a water-stress limit.
 
-## 4. Litre ≠ kıtlık — 1:35–2:10  [fig2_water_vs_stress.png veya watttowater_map.html]
+## 4. Çözüm 1 — geliştirici: tek satır — 1:15–1:40  [VS Code: examples/quickstart.py, sonra terminal]
 
-> But litres are only half the story. Here I put each region's water footprint next to
-> its water stress from WRI Aqueduct. Texas uses very little water, but it is in a
-> High-stress region. Washington uses the most, but has low stress.
-> That's why WattToWater never merges them into one number: it shows both.
+> The solution has three levels. First, the developer. You add one line, track_water,
+> above your function...
 
-## 5. İkinci kaldıraç: model boyutu — 2:10–2:40  [önce terminal, sonra fig3]
+`python examples/quickstart.py`
 
-`py watttowater.py --trees 100`
+> ...and every run prints its water footprint and is logged.
 
-> And if you can't move your job, you can shrink it. With 100 trees instead of 200,
-> the model used 48 percent of the energy and water, and the accuracy was the same,
-> even slightly higher.
+## 5. Çözüm 2 — ekip: her push'ta su raporu — 1:40–2:05  [terminal, sonra GitHub Actions özeti]
 
-## 6. Dürüstlük + kapanış — 2:40–3:00  [kameraya konuş]
+`python -m watttowater report water_log.csv --region Virginia`
 
-> This is a prototype: energy is estimated, not metered, and the factors are annual averages.
-> All assumptions, data and code are open, and every number can be regenerated with one command.
-> The goal is simple: put the water cost of software in front of the people who write it.
-> Thank you.
+> Second, the team. The log becomes a report: total water, best and worst region, and
+> which job uses the most. On GitHub, it runs automatically on every push, so the whole
+> team sees the water footprint of every change.
 
-## Ekranda gösterilecek sayılar (hepsi makaleyle tutarlı)
+## 6. Çözüm 3 — kurum: ne ve nerede çalıştırmalı — 2:05–2:35  [terminal]
+
+`python examples/model_size.py`
+
+> Third, decisions. The advisor measures model variants. Here, 50 trees reach the same
+> accuracy as 200 trees with about a quarter of the water. No new hardware, no new
+> region: just a smaller model. And for teams that choose cloud regions, a water-stress
+> policy filters the regions.
+
+## 7. Dürüstlük + kapanış — 2:35–3:00  [kameraya konuş, sonra banner]
+
+> This is a prototype: energy is estimated, not metered, and the factors are annual
+> averages. Everything is open: the data, the code, the tests and our paper.
+> WattToWater puts the water cost of software in front of the people who write it,
+> at the moment they decide. Thank you.
+
+## Ekranda gösterilecek sayılar (makaleyle tutarlı)
 
 | Bulgu | Sayı |
 |---|---|
 | Bölge farkı | 0,106 mL (İrlanda) – 0,708 mL (Washington), 6,7 kat |
-| Tesis içi (soğutma) payı | en fazla %22 (Arizona) |
+| Soğutma payı | en fazla %22 (Arizona); elektrik en az %78 |
 | Teksas | 2. en düşük su, Yüksek su stresi (3,33) |
-| 100 ağaç | enerjinin ve suyun %48'i, doğruluk %96,15 (200 ağaçta %95,90) |
+| Model boyutu | 100 ağaç: suyun %48'i, doğruluk %96,15 (200 ağaçta %95,90) |
+| Danışman (canlı) | 50 ağaç: suyun ~%23'ü, doğruluk %95,95 |
 
-Not: Canlı demoda sayılar her çalıştırmada biraz değişir (ör. 0,097 mL); makaledeki
-değerler 15 çalıştırmanın ortalamasıdır. Videoda bunu söylemen dürüst olur:
-"numbers vary slightly per run; the paper reports the mean of 15 runs."
+Not: Canlı sayılar her çalıştırmada biraz değişir; makaledeki değerler 15 çalıştırmanın
+ortalamasıdır. Videoda bir kez söylemen yeterli: "live numbers vary slightly per run".

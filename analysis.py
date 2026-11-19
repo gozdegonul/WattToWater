@@ -102,7 +102,7 @@ for region in REGIONS:
     waters = [water_for(region, e)[2] * 1000 for e in energies]
     score, label, level = STRESS[region]
     main_rows.append([region, round(statistics.mean(waters), 3), round(statistics.stdev(waters), 3),
-                      round(score, 2), label, "country" if level == "ülke" else "state"])
+                      round(score, 2), label, level])
 main_rows.sort(key=lambda r: r[1])
 write_csv("outputs/table_water_stress.csv",
           ["region", "water_ml_mean", "water_ml_sd", "bws_score_0_5", "bws_category", "level"],
@@ -150,7 +150,7 @@ def save(fig, name):
     if fig._suptitle is not None:
         fig._suptitle.set_text("")
         fig.tight_layout()
-    fig.savefig(f"paper/figures/{name}.pdf")
+    fig.savefig(f"paper/figures/{name}.pdf", metadata={"CreationDate": None})
     plt.close(fig)
 
 # Şekil 1: bölge başına su (mL), tesis içi / tesis dışı ayrımı
